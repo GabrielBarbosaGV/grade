@@ -1,8 +1,22 @@
 export default class CourseClass {
     name: String;
     code: String;
-    schedule: TimeLocation[];
+    schedule: Schedule;
     flags: Object[];
+}
+
+export class Schedule {
+    timeLocations: TimeLocation[];
+
+    intersectsWith(schedule: Schedule) {
+        for (let tl0 of this.timeLocations) {
+            for (let tl1 of schedule.timeLocations) {
+                if (tl0.intersectsWith(tl1)) return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 export class TimeLocation {
