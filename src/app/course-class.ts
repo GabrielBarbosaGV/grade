@@ -61,9 +61,9 @@ export class Schedule {
     }
 
     hasInternalIntersection(timeLocations: TimeLocation[]) {
-        for (let tl0 of timeLocations) {
-            for (let tl1 of timeLocations) {
-                if ((tl0 !== tl1) && tl0.intersectsWith(tl1))
+        for (let tl0 in timeLocations) {
+            for (let tl1 in timeLocations) {
+                if ((tl0 !== tl1) && timeLocations[tl0].intersectsWith(timeLocations[tl1]))
                     return true;
             }
         }
