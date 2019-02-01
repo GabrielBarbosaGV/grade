@@ -95,6 +95,18 @@ export class ClassSchedule extends Schedule {
 
         this.courseClass = courseClass;
     }
+
+    getCourseClassName(): string {
+        return this.courseClass.name;
+    }
+
+    getCourseClassCode(): string {
+        return this.courseClass.code;
+    }
+
+    getCourseClassTeacher(): string {
+        return this.courseClass.teacher;
+    }
 }
 
 const days = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"]
