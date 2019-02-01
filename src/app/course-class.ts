@@ -30,7 +30,7 @@ export class Schedule {
         }
     }
 
-    insert(...timeLocations: TimeLocation[]) {
+    insert(...timeLocations: TimeLocation[]): Schedule {
         if (this.noIntersect
                 && (this.haveIntersection(this.timeLocations, timeLocations)
                 || this.hasInternalIntersection(timeLocations))) {
@@ -39,21 +39,27 @@ export class Schedule {
         } else {
             this.timeLocations = [...this.timeLocations, ...timeLocations];
         }
+
+        return this;
     }
 
-    insertArray(timeLocations: TimeLocation[]) {
+    insertArray(timeLocations: TimeLocation[]): Schedule {
         this.insert(...timeLocations);
+
+        return this;
     }
 
-    insertSchedule(schedule: Schedule) {
+    insertSchedule(schedule: Schedule): Schedule {
         this.insertArray(schedule.timeLocations);
+
+        return this;
     }
 
-    intersectsWith(schedule: Schedule) {
+    intersectsWith(schedule: Schedule): boolean {
         return this.haveIntersection(this.timeLocations, schedule.timeLocations);
     }
 
-    hasIntersection(timeLocation: TimeLocation, timeLocations: TimeLocation[]) {
+    hasIntersection(timeLocation: TimeLocation, timeLocations: TimeLocation[]): boolean {
         for (let tl of timeLocations) {
             if (tl.intersectsWith(timeLocation)) return true;
         }
@@ -61,7 +67,7 @@ export class Schedule {
         return false;
     }
 
-    haveIntersection(timeLocations0: TimeLocation[], timeLocations1: TimeLocation[]) {
+    haveIntersection(timeLocations0: TimeLocation[], timeLocations1: TimeLocation[]): boolean {
         for (let tl0 of timeLocations0) {
             if (this.hasIntersection(tl0, timeLocations1)) return true;
         }
@@ -69,13 +75,25 @@ export class Schedule {
         return false;
     }
 
-    hasInternalIntersection(timeLocations: TimeLocation[]) {
+    hasInternalIntersection(timeLocations: TimeLocation[]): boolean {
         for (let tl0 in timeLocations) {
             for (let tl1 in timeLocations) {
                 if ((tl0 !== tl1) && timeLocations[tl0].intersectsWith(timeLocations[tl1]))
                     return true;
             }
         }
+
+        return false;
+    }
+}
+
+export class ClassSchedule extends Schedule {
+    courseClass: CourseClass;
+
+    constructor(timeLocations: TimeLocation[], courseClass: CourseClass, noIntersect: boolean = true) {
+        super(timeLocations, noIntersect);
+
+        this.courseClass = courseClass;
     }
 }
 
@@ -92,7 +110,7 @@ export class TimeLocation {
         this.endingTime = endingTime;
     }
 
-    static parseTimeLocation(tlstr: string) {
+    static parseTimeLocation(tlstr: string): TimeLocation {
         let day: number = days.indexOf(tlstr.slice(0, 3));
         let times: string[] = tlstr.slice(4).split('-');
         let startingNumbers: number[] = times[0].split(':').map(str => parseInt(str));
@@ -111,15 +129,15 @@ export class TimeLocation {
         return new TimeLocation(day, startingTime, endingTime);
     }
 
-    static parseTimeLocations(...tlstrs: string[]) {
+    static parseTimeLocations(...tlstrs: string[]): TimeLocation[] {
         return tlstrs.map(tlstr => TimeLocation.parseTimeLocation(tlstr));
     }
 
-    static parseTimeLocationArray(tlstrs: string[]) {
+    static parseTimeLocationArray(tlstrs: string[]): TimeLocation[] {
         return TimeLocation.parseTimeLocations(...tlstrs);
     }
 
-    intersectsWith(timeLocation: TimeLocation) {
+    intersectsWith(timeLocation: TimeLocation): boolean {
         if (timeLocation.startingTime.isEarlierThan(this.startingTime)) {
             return timeLocation.endingTime.isEarlierThan(this.startingTime)
                 || timeLocation.endingTime.isEqualTo(this.startingTime);
@@ -137,19 +155,19 @@ export class TimeStamp {
         this.minute = minute;
     }
 
-    isEarlierThan(timeStamp: TimeStamp) {
+    isEarlierThan(timeStamp: TimeStamp): boolean {
         if (this.hour < timeStamp.hour) return true;
         else if (this.hour === timeStamp.hour) return this.minute < timeStamp.minute;
         else return false;
     }
 
-    isAfter(timeStamp: TimeStamp) {
+    isAfter(timeStamp: TimeStamp): boolean {
         if (this.hour > timeStamp.hour) return true;
         else if (this.hour === timeStamp.hour) return this.minute > timeStamp.minute;
         else return false;
     }
     
-    isEqualTo(timeStamp: TimeStamp) {
+    isEqualTo(timeStamp: TimeStamp): boolean {
         return ((this.hour === timeStamp.hour) && (this.minute === timeStamp.minute))
     }
 }
