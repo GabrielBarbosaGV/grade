@@ -1,8 +1,17 @@
 export default class CourseClass {
-    name: String;
-    code: String;
+    code: string;
+    name: string;
+    teacher: string;
     schedule: Schedule;
-    flags: Object[];
+    flags: string[];
+
+    constructor(code: string, name: string, teacher: string, schedule: Schedule, flags: string[] = []) {
+        this.code = code;
+        this.name = name;
+        this.teacher = teacher;
+        this.schedule = schedule;
+        this.flags = flags;
+    }
 }
 
 export class Schedule {
@@ -70,6 +79,8 @@ export class Schedule {
     }
 }
 
+const days = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"]
+
 export class TimeLocation {
     day: number;
     startingTime: TimeStamp;
@@ -79,6 +90,33 @@ export class TimeLocation {
         this.day = day;
         this.startingTime = startingTime;
         this.endingTime = endingTime;
+    }
+
+    static parseTimeLocation(tlstr: string) {
+        let day: number = days.indexOf(tlstr.slice(0, 3));
+        let times: string[] = tlstr.slice(4).split('-');
+        let startingNumbers: number[] = times[0].split(':').map(str => parseInt(str));
+        let endingNumbers: number[] = times[1].split(':').map(str => parseInt(str));
+        let startingTime: TimeStamp = null;
+        let endingTime: TimeStamp = null;
+
+        if (startingNumbers.length > 1)
+            startingTime = new TimeStamp(startingNumbers[0]);
+        else startingTime = new TimeStamp(startingNumbers[0], startingNumbers[1]);
+
+        if (endingNumbers.length > 1)
+            endingTime = new TimeStamp(endingNumbers[0]);
+        else endingTime = new TimeStamp(endingNumbers[0], endingNumbers[1]);
+
+        return new TimeLocation(day, startingTime, endingTime);
+    }
+
+    static parseTimeLocations(...tlstrs: string[]) {
+        return tlstrs.map(tlstr => TimeLocation.parseTimeLocation(tlstr));
+    }
+
+    static parseTimeLocationArray(tlstrs: string[]) {
+        return TimeLocation.parseTimeLocations(...tlstrs);
     }
 
     intersectsWith(timeLocation: TimeLocation) {
@@ -94,7 +132,7 @@ export class TimeStamp {
     hour: number;
     minute: number;
 
-    constructor(hour: number, minute: number) {
+    constructor(hour: number, minute: number = 0) {
         this.hour = hour;
         this.minute = minute;
     }
