@@ -167,6 +167,13 @@ export class TimeStamp {
         this.minute = minute;
     }
 
+    diffInSeconds(timeStamp: TimeStamp): number {
+        let hours = this.hour - timeStamp.hour;
+        let minutes = this.minute - timeStamp.minute;
+
+        return ((hours * 3600) + (minutes*60));
+    }
+
     isEarlierThan(timeStamp: TimeStamp): boolean {
         if (this.hour < timeStamp.hour) return true;
         else if (this.hour === timeStamp.hour) return this.minute < timeStamp.minute;
