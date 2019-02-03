@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TimeLocation, TimeStamp } from '../course-class'
+import { invertRgb } from '../coloring';
 
 @Component({
   selector: 'app-timebox',
@@ -36,6 +37,7 @@ export class TimeboxComponent implements OnInit {
     this.style["height"] = ((innerDist / (24 * 60 * 60)) * 100).toString() + '%';
 
     this.style["background-color"] = this.backgroundColor;
+    this.style["color"] = invertRgb(this.backgroundColor);
   }
 
 }
