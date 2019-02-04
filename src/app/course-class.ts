@@ -87,28 +87,6 @@ export class Schedule {
     }
 }
 
-export class ClassSchedule extends Schedule {
-    courseClass: CourseClass;
-
-    constructor(timeLocations: TimeLocation[], courseClass: CourseClass, noIntersect: boolean = true) {
-        super(timeLocations, noIntersect);
-
-        this.courseClass = courseClass;
-    }
-
-    getCourseClassName(): string {
-        return this.courseClass.name;
-    }
-
-    getCourseClassCode(): string {
-        return this.courseClass.code;
-    }
-
-    getCourseClassTeacher(): string {
-        return this.courseClass.teacher;
-    }
-}
-
 const days = ["dom", "seg", "ter", "qua", "qui", "sex", "sab"]
 
 export class TimeLocation {
@@ -155,16 +133,6 @@ export class TimeLocation {
                 || timeLocation.endingTime.isEqualTo(this.startingTime);
         } else if (timeLocation.startingTime.isAfter(this.endingTime)) return false;
         else return false;
-    }
-}
-
-export class ClassTimeLocation extends TimeLocation {
-    courseClass: CourseClass;
-
-    constructor(day: number, startingTime: TimeStamp, endingTime: TimeStamp, courseClass: CourseClass) {
-        super(day, startingTime, endingTime);
-
-        this.courseClass = courseClass;
     }
 }
 
