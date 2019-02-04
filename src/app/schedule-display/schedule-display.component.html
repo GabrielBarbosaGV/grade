@@ -1,0 +1,19 @@
+<table>
+  <tr>
+    <td *ngFor="let day of days" style="width: 200px;">{{ day }}</td>
+  </tr>
+  <tr>
+    <td
+      *ngFor="let day of days; let num = index"
+      style="position:relative;width: 200px;height: 1000px;">
+      <app-timebox
+        *ngFor="let ctl of getCTLByDayNum(num)"
+        [code]="ctl.courseClass.code"
+        [name]="ctl.courseClass.name"
+        [teacher]="ctl.courseClass.teacher"
+        [backgroundColor]="rgb(0, 0, 0)"
+        [timeLocation]="ctl">
+      </app-timebox>
+    </td>
+  </tr>
+</table>
