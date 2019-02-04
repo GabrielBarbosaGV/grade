@@ -158,6 +158,16 @@ export class TimeLocation {
     }
 }
 
+export class ClassTimeLocation extends TimeLocation {
+    courseClass: CourseClass;
+
+    constructor(day: number, startingTime: TimeStamp, endingTime: TimeStamp, courseClass: CourseClass) {
+        super(day, startingTime, endingTime);
+
+        this.courseClass = courseClass;
+    }
+}
+
 export class TimeStamp {
     hour: number;
     minute: number;
