@@ -6,11 +6,11 @@ export function invertRgb(rgb: string): string {
     return rgbfy(...values);
 }
 
-export function getRandomRgb(): string {
+export function getRandomRgb(maxBrightness: number = 255): string {
     let rgb = [
-        Math.round(Math.random() * 255),
-        Math.round(Math.random() * 255),
-        Math.round(Math.random() * 255)
+        Math.round(Math.random() * maxBrightness),
+        Math.round(Math.random() * maxBrightness),
+        Math.round(Math.random() * maxBrightness)
     ]
 
     return rgbfy(...rgb);
