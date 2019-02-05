@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import Pair from '../pair';
 import CourseClass, { TimeLocation } from '../course-class';
+import { getRandomRgb } from '../coloring';
 
 @Component({
   selector: 'app-schedule-display',
@@ -13,12 +14,23 @@ export class ScheduleDisplayComponent implements OnInit {
   @Input() colsWidth: string = "200px";
 
   days: string[] = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
-  backgroundColor: string = "rgb(0, 0, 0)"
+  backgroundColors = {}
 
   getCTLByDayNum(num: number) {
     return this.classTimeLocations.filter(ctl => {
       return ctl.second.day === num;
     });
+  }
+
+  getClassColor(className: string): string {
+    if (this.backgroundColors[className]) {
+      return this.backgroundColors[className];
+    } else {
+      let randomRgb = getRandomRgb();
+      this.backgroundColors[className] = randomRgb;
+
+      return randomRgb;
+    }
   }
 
   constructor() { }
