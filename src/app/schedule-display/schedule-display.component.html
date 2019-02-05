@@ -1,19 +1,22 @@
-<table>
-  <tr>
-    <td *ngFor="let day of days" [ngStyle]="{ 'width': colsWidth }">{{ day }}</td>
-  </tr>
-  <tr>
-    <td
-      *ngFor="let day of days; let num = index"
-      [ngStyle]="{ 'position': 'relative', 'width': colsWidth, 'height': scheduleHeight }">
-      <app-timebox
-        *ngFor="let ctl of getCTLByDayNum(num)"
-        [code]="ctl.first.code"
-        [name]="ctl.first.name"
-        [teacher]="ctl.first.teacher"
-        [backgroundColor]="getClassColor(ctl.first.name)"
-        [timeLocation]="ctl.second">
-      </app-timebox>
-    </td>
-  </tr>
+<table border="1">
+  <thead>
+    <th *ngFor="let day of days" [ngStyle]="{ 'width': colsWidth }">{{ day }}</th>
+  </thead>
+
+  <tbody [ngStyle]="{ 'max-height': tbodyHeight }">
+    <tr>
+      <td
+        *ngFor="let day of days; let num = index"
+        [ngStyle]="{ 'position': 'relative', 'width': colsWidth, 'height': scheduleHeight, 'font-size': fontSize }">
+        <app-timebox
+          *ngFor="let ctl of getCTLByDayNum(num)"
+          [code]="ctl.first.code"
+          [name]="ctl.first.name"
+          [teacher]="ctl.first.teacher"
+          [backgroundColor]="getClassColor(ctl.first.name)"
+          [timeLocation]="ctl.second">
+        </app-timebox>
+      </td>
+    </tr>
+  </tbody>
 </table>

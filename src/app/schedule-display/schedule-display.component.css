@@ -1,0 +1,9 @@
+tbody {
+    display: block;
+    overflow-y: scroll;
+}
+
+thead, tr {
+    display: table;
+    table-layout: fixed;
+}

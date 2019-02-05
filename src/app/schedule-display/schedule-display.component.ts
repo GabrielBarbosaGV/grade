@@ -10,8 +10,10 @@ import { getRandomRgb } from '../coloring';
 })
 export class ScheduleDisplayComponent implements OnInit {
   @Input() classTimeLocations: Pair<CourseClass, TimeLocation>[];
+  @Input() tbodyHeight: string = "600px";
   @Input() scheduleHeight: string = "1000px";
   @Input() colsWidth: string = "200px";
+  @Input() fontSize: string = "11px";
 
   days: string[] = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
   maxRgbValue: number = 127;
