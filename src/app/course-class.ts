@@ -24,7 +24,7 @@ export class Schedule {
 
         if (this.noIntersect) {
             if (this.hasInternalIntersection(timeLocations)) {
-                let errMessage: string = "There are intersecting TimeLocations in given set, and noIntersect is set to true." + timeLocations.map(tl => tl.startingTime.hour);
+                let errMessage: string = "There are intersecting TimeLocations in given set, and noIntersect is set to true.";
                 throw new Error(errMessage);
             }
         }
@@ -131,7 +131,7 @@ export class TimeLocation {
         if (timeLocation.day != this.day) return false;
         else if (timeLocation.startingTime.isEarlierThan(this.startingTime)) {
             return timeLocation.endingTime.isAfter(this.startingTime);
-        } else if (timeLocation.startingTime.isAfter(this.endingTime)) return false;
+        } else if (!timeLocation.startingTime.isEarlierThan(this.endingTime)) return false;
         else return true;
     }
 }
