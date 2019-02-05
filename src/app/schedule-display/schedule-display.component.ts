@@ -14,6 +14,7 @@ export class ScheduleDisplayComponent implements OnInit {
   @Input() colsWidth: string = "200px";
 
   days: string[] = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
+  maxRgbValue: number = 127;
   backgroundColors = {}
 
   getCTLByDayNum(num: number) {
@@ -26,7 +27,7 @@ export class ScheduleDisplayComponent implements OnInit {
     if (this.backgroundColors[className]) {
       return this.backgroundColors[className];
     } else {
-      let randomRgb = getRandomRgb();
+      let randomRgb = getRandomRgb(this.maxRgbValue);
       this.backgroundColors[className] = randomRgb;
 
       return randomRgb;
